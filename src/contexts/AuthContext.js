@@ -4,6 +4,8 @@ import { useContext, createContext, useState, useEffect } from "react";
 import signUp, { auth } from "@/firebase/auth/signup";
 import signIn from "@/firebase/auth/signin";
 import logout from "@/firebase/auth/logout";
+import resetPassword from "@/firebase/auth/resetPassword";
+import { updatePassword, updateEmail } from "@/firebase/auth/updateProfile";
 import { UserCredential } from "firebase/auth";
 
 const AuthContext = createContext({});
@@ -29,6 +31,9 @@ export function AuthProvider({ children }) {
     signUp,
     signIn,
     logout,
+    resetPassword,
+    updateEmail,
+    updatePassword,
   };
 
   return (

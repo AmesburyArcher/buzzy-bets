@@ -1,10 +1,11 @@
 "use client";
 
-import SignUpPage from "./signup/page";
+import SignUpPage from "./(auth)/signup/page";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
   const { currentUser } = useAuth();
+  console.log(currentUser);
   return (
     <>
       <h1>Allo World</h1>

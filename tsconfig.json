@@ -33,7 +33,7 @@
     "src/firebase/auth/signin.js",
     "src/app/layout.js",
     "src/app/page.js",
-    "src/app/signup/page.js",
+    "src/app/(auth)/signup/page.js",
     "src/contexts/AuthContext.js"
   ],
   "exclude": ["node_modules"]
