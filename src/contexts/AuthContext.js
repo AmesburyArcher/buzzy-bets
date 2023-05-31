@@ -5,6 +5,7 @@ import signUp, { auth } from "@/firebase/auth/signup";
 import signIn from "@/firebase/auth/signin";
 import logout from "@/firebase/auth/logout";
 import resetPassword from "@/firebase/auth/resetPassword";
+import authenticate from "@/firebase/auth/reauthenticate";
 import { updatePassword, updateEmail } from "@/firebase/auth/updateProfile";
 import { UserCredential } from "firebase/auth";
 
@@ -34,6 +35,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    authenticate,
   };
 
   return (

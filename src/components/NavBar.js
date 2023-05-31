@@ -26,9 +26,12 @@ export default function NavBar() {
       <h1>Buzzy Bets</h1>
       <ul>
         {currentUser ? (
-          <button type="button" onClick={handleLogOut}>
-            Log Out
-          </button>
+          <>
+            <button type="button" onClick={handleLogOut}>
+              Log Out
+            </button>
+            <Link href="/update-profile">Update Profile</Link>
+          </>
         ) : (
           <>
             <Link href="/signup">Sign Up</Link>
