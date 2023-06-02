@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import Email from "../(components)/email";
 import Link from "next/link";
 
 export default function ForgotPassword() {
@@ -35,7 +36,7 @@ export default function ForgotPassword() {
 
   return (
     <div className="login__form__wrapper">
-      <form onSubmit={handleForm} className="login__form">
+      {/* <form onSubmit={handleForm} className="login__form">
         <h2>Password Reset</h2>
         {error && <h2>{error}</h2>}
         {message && <h2>{message}</h2>}
@@ -54,7 +55,15 @@ export default function ForgotPassword() {
         <button type="submit" disabled={loading}>
           Reset Password
         </button>
-      </form>
+      </form> */}
+      <Email
+        handleForm={handleForm}
+        handleEmailChange={setEmail}
+        loading={loading}
+        error={error}
+        success={message}
+        submitText={"Reset Password"}
+      />
       <div>
         <Link href="/login">Login</Link>
       </div>
