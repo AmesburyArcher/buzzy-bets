@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import EmailAndPassword from "../(components)/emailAndPassword";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -39,36 +40,14 @@ export default function LoginPage() {
 
   return (
     <div className="login__form__wrapper">
-      <form onSubmit={handleForm} className="login__form">
-        {error && <h1>{error}</h1>}
-        <label htmlFor="email">
-          Email
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            type="email"
-            name="email"
-            id="email"
-            placeholder="example@mail.com"
-            autoComplete="new-username"
-          />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            type="password"
-            name="password"
-            id="password"
-            placeholder="password"
-            autoComplete="new-password"
-          />
-        </label>
-        <button type="submit" disabled={loading}>
-          Log In
-        </button>
-      </form>
+      <EmailAndPassword
+        handleForm={handleForm}
+        handleEmailChange={setEmail}
+        handlePasswordChange={setPassword}
+        error={error}
+        loading={loading}
+        submitText={"Log In"}
+      />
       <div>
         <Link href="/forgot-password">Forgot Password?</Link>
       </div>

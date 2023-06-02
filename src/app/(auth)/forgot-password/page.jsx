@@ -36,26 +36,6 @@ export default function ForgotPassword() {
 
   return (
     <div className="login__form__wrapper">
-      {/* <form onSubmit={handleForm} className="login__form">
-        <h2>Password Reset</h2>
-        {error && <h2>{error}</h2>}
-        {message && <h2>{message}</h2>}
-        <label htmlFor="email">
-          Email
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            type="email"
-            name="email"
-            id="email"
-            placeholder="example@mail.com"
-            autoComplete="new-username"
-          />
-        </label>
-        <button type="submit" disabled={loading}>
-          Reset Password
-        </button>
-      </form> */}
       <Email
         handleForm={handleForm}
         handleEmailChange={setEmail}

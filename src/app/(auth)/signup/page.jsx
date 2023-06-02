@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import SignUp from "../(components)/signup";
 import Link from "next/link";
 
 export default function SignUpPage() {
@@ -44,47 +45,15 @@ export default function SignUpPage() {
 
   return (
     <div className="signup__form__wrapper">
-      <form onSubmit={handleForm} className="signup__form">
-        {error && <h1>{error}</h1>}
-        <label htmlFor="email">
-          Email
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            type="email"
-            name="email"
-            id="email"
-            placeholder="example@mail.com"
-            autoComplete="new-username"
-          />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            type="password"
-            name="password"
-            id="password"
-            placeholder="password"
-            autoComplete="new-password"
-          />
-        </label>
-        <label htmlFor="confirm__password">
-          Confirm Password
-          <input
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            type="password"
-            name="confirm_password"
-            id="confirm_password"
-            placeholder="confirm password"
-          />
-        </label>
-        <button type="submit" disabled={loading}>
-          Sign Up
-        </button>
-      </form>
+      <SignUp
+        handleForm={handleForm}
+        handleEmailChange={setEmail}
+        handlePassOneChange={setPassword}
+        handlePassTwoChange={setConfirmPassword}
+        error={error}
+        loading={loading}
+        submitText={"Sign Up"}
+      />
       <div>
         Already have an account? <Link href="/login">Log In</Link>
       </div>
