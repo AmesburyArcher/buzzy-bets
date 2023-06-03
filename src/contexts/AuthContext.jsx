@@ -7,6 +7,7 @@ import logout from "@/firebase/auth/logout";
 import resetPassword from "@/firebase/auth/resetPassword";
 import authenticate from "@/firebase/auth/reauthenticate";
 import { updatePassword, updateEmail } from "@/firebase/auth/updateProfile";
+import LoadingScreen from "../components/LoadingScreen";
 import { UserCredential } from "firebase/auth";
 
 const AuthContext = createContext({});
@@ -40,7 +41,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {loading ? <div>TEMP LOADING</div> : children}
+      {loading ? <LoadingScreen /> : children}
     </AuthContext.Provider>
   );
 }
