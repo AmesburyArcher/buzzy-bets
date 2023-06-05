@@ -1,3 +1,5 @@
+import styles from "./AuthComponents.module.css";
+
 export default function SignUp({
   handleForm,
   handleEmailChange,
@@ -8,10 +10,10 @@ export default function SignUp({
   loading,
 }) {
   return (
-    <form onSubmit={handleForm} className="signup__form">
+    <form onSubmit={handleForm} className={styles.form}>
       {error && <h1>{error}</h1>}
-      <label htmlFor="email">
-        Email
+      <div className={styles.input_container}>
+        <label htmlFor="email">Email</label>
         <input
           onChange={(e) => handleEmailChange(e.target.value)}
           required
@@ -21,9 +23,18 @@ export default function SignUp({
           placeholder="example@mail.com"
           autoComplete="new-username"
         />
-      </label>
-      <label htmlFor="password">
-        Password
+      </div>
+      <div className={styles.input_container}>
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Username"
+        />
+      </div>
+      <div className={styles.input_container}>
+        <label htmlFor="password">Password</label>
         <input
           onChange={(e) => handlePassOneChange(e.target.value)}
           required
@@ -33,9 +44,9 @@ export default function SignUp({
           placeholder="password"
           autoComplete="new-password"
         />
-      </label>
-      <label htmlFor="confirm__password">
-        Confirm Password
+      </div>
+      <div className={styles.input_container}>
+        <label htmlFor="confirm__password">Confirm Password</label>
         <input
           onChange={(e) => handlePassTwoChange(e.target.value)}
           required
@@ -44,7 +55,7 @@ export default function SignUp({
           id="confirm_password"
           placeholder="confirm password"
         />
-      </label>
+      </div>
       <button type="submit" disabled={loading}>
         {submitText}
       </button>
