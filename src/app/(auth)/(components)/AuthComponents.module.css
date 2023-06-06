@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
 
-  width: 400px;
+  width: 500px;
 }
 
 .input_container {
@@ -12,4 +12,14 @@
 
   padding: 1rem;
   border: 1px solid black;
+  width: 100%;
+}
+
+.required__form:invalid ~ .required {
+  display: block;
+  color: crimson;
+}
+
+.required__form ~ .required {
+  display: none;
 }

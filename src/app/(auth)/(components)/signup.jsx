@@ -3,8 +3,10 @@ import styles from "./AuthComponents.module.css";
 export default function SignUp({
   handleForm,
   handleEmailChange,
+  handleUsernameChange,
   handlePassOneChange,
   handlePassTwoChange,
+  verifyPassword,
   submitText,
   error,
   loading,
@@ -27,6 +29,7 @@ export default function SignUp({
       <div className={styles.input_container}>
         <label htmlFor="username">Username</label>
         <input
+          onChange={(e) => handleUsernameChange(e.target.value)}
           type="text"
           name="username"
           id="username"
