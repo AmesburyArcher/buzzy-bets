@@ -16,3 +16,13 @@ export function verifyPassword(password) {
   }
   return errors;
 }
+
+export function verifyEmail(email) {
+  if (email === "") return true;
+  const atpos = email.indexOf("@");
+  const dotpos = email.lastIndexOf(".");
+  if (atpos < 1 || dotpos - atpos < 2) {
+    return false;
+  }
+  return true;
+}
