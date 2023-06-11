@@ -11,7 +11,7 @@ export default async function authenticate(password) {
   const cred = EmailAuthProvider.credential(currentUser.email, password);
 
   try {
-    reauthenticateWithCredential(currentUser, cred);
+    await reauthenticateWithCredential(currentUser, cred);
   } catch (e) {
     throw e;
   }
