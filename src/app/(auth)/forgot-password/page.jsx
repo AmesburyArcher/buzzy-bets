@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
-import Email from "../(components)/email";
+import styles from "../(components)/AuthComponents.module.css";
+import pageStyles from "./ForgotPassword.module.css";
 import Link from "next/link";
 
 export default function ForgotPassword() {
@@ -23,7 +24,6 @@ export default function ForgotPassword() {
       setLoading(true);
       await resetPassword(email);
       setMessage("Check your inbox for password reset instructions!");
-      setLoading(false);
     } catch (error) {
       switch (error) {
         default:
@@ -35,15 +35,33 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="login__form__wrapper">
-      <Email
-        handleForm={handleForm}
-        handleEmailChange={setEmail}
-        loading={loading}
-        error={error}
-        success={message}
-        submitText={"Reset Password"}
-      />
+    <div className={pageStyles.page}>
+      <h1>Forgot Password</h1>
+      <form onSubmit={handleForm} className={styles.form}>
+        <h2>Confirm Email</h2>
+        {error && <h1>{error}</h1>}
+        {message && <h1>{message}</h1>}
+        <div className={styles.input_container}>
+          <label htmlFor="email">Email</label>
+          <input
+            onChange={(e) => handleEmailChange(e.target.value)}
+            required
+            type="email"
+            name="email"
+            id="email"
+            placeholder="example@mail.com"
+            autoComplete="new-username"
+            className={styles.input}
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className={styles.submit__button}
+        >
+          Send Reset Email
+        </button>
+      </form>
       <div>
         <Link href="/login">Login</Link>
       </div>

@@ -40,6 +40,14 @@
   color: crimson;
 }
 
+.error__span {
+  background-color: crimson;
+  border: 1px solid black;
+  border-radius: 0.6rem;
+  text-align: center;
+  width: 100%;
+}
+
 .not__required {
   display: none;
 }

@@ -7,26 +7,28 @@ import {
   updatePasswordNew,
   updateEmailNew,
 } from "../../../firebase/auth/updateProfile";
+import { verifyEmail, verifyPassword } from "@/helpers/verification";
 import styles from "../(components)/AuthComponents.module.css";
 import pageStyles from "./UpdatePage.module.css";
 
 import Link from "next/link";
 
 export default function UpdateUserProfile() {
+  const [success, setSuccess] = useState("");
   const [email, setEmail] = useState("");
-  const [emailSuccess, setEmailSuccess] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [currPassword, setCurrPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [validated, setValidated] = useState(false);
+  const [validatedError, setValidatedError] = useState("");
 
   const router = useRouter();
   const { currentUser, authenticate } = useAuth();
-
-  const dialogRef = useRef(null);
 
   useEffect(() => {
     if (currentUser == null) {
@@ -40,34 +42,65 @@ export default function UpdateUserProfile() {
 
   const handleFormEmail = async (e) => {
     e.preventDefault();
+    setSuccess("");
+    setError("");
 
-    if (password != currPassword) {
-      return setError("Passwords do not match!");
-    }
+    const validEmail = verifyEmail(email);
+    if (!validEmail)
+      return setEmailError("Please enter a valid email address.");
 
     try {
-      setError("");
       setLoading(true);
-      updateEmailNew(email);
+      await updateEmailNew(email);
+      setEmailError("");
+      setSuccess("Email successfully updated!");
+    } catch (error) {
+      switch (error) {
+        default:
+          if (error.code === "auth/invalid-email")
+            setError("Please enter a valid email address.");
+          else setError("An error has occurred please try again.");
+      }
       setLoading(false);
+    }
+  };
+
+  const handleFormPassword = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    const validPass = verifyPassword(password);
+    if (validPass.length > 0) return setError("Please enter a valid password.");
+    if (password != confirmPassword)
+      return setError("Password provided do not match.");
+
+    try {
+      setLoading(true);
+      await updatePasswordNew(password);
+      setPasswordError("");
+      setSuccess("Password successfully updated!");
     } catch (error) {
       switch (error) {
         default:
           setError("An error has occurred please try again.");
       }
       setLoading(false);
-      setCurrPassword("");
     }
   };
 
   const handlePasswordMatch = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await authenticate(currPassword);
       setValidated(true);
+      setValidatedError("");
     } catch (e) {
-      console.log(e.code);
+      if (e.code === "auth/wrong-password")
+        setValidatedError("Incorrect password for currently signed in user.");
     }
+    setLoading(false);
   };
 
   return !validated ? (
@@ -85,10 +118,15 @@ export default function UpdateUserProfile() {
               type="password"
               name="password_current"
               id="password_current"
-              placeholder="current password"
+              placeholder="verify password"
               autoComplete="new-password"
               className={styles.input}
             />
+            {validatedError && (
+              <div className={styles.error__span}>
+                <span>{validatedError}</span>
+              </div>
+            )}
           </div>
           <button disabled={loading} className={styles.submit__button}>
             Confirm
@@ -98,10 +136,9 @@ export default function UpdateUserProfile() {
     </div>
   ) : (
     <div className={pageStyles.page}>
+      {error && <h1>{error}</h1>}
       <form onSubmit={handleFormEmail} className={styles.form}>
         <h2>Update Email</h2>
-        {error && <h1>{error}</h1>}
-        {emailSuccess && <h1>{emailSuccess}</h1>}
         <div className={styles.input_container}>
           <label htmlFor="email">Email</label>
           <input
@@ -115,6 +152,11 @@ export default function UpdateUserProfile() {
             autoComplete="new-username"
             className={styles.input}
           />
+          {emailError && (
+            <div className={styles.error__span}>
+              <span>{emailError}</span>
+            </div>
+          )}
         </div>
 
         <button
@@ -125,12 +167,7 @@ export default function UpdateUserProfile() {
           Update Email
         </button>
       </form>
-      <form
-        onSubmit={function () {
-          handleForm;
-        }}
-        className={styles.form}
-      >
+      <form onSubmit={handleFormPassword} className={styles.form}>
         <h2>Update Password</h2>
         <div className={styles.input_container}>
           <label htmlFor="password">Password</label>

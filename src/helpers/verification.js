@@ -18,7 +18,7 @@ export function verifyPassword(password) {
 }
 
 export function verifyEmail(email) {
-  if (email === "") return true;
+  // if (email === "") return true;
   const atpos = email.indexOf("@");
   const dotpos = email.lastIndexOf(".");
   if (atpos < 1 || dotpos - atpos < 2) {
