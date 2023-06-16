@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { verifyPassword, verifyEmail } from "../../../helpers/verification";
 import { TriangleAlert } from "../../../helpers/svgIcons";
+import { addUserToDB } from "../../../firebase/firestore/firestore";
 import Link from "next/link";
 import styles from "../(components)/AuthComponents.module.css";
 import pageStyles from "./SignUpPage.module.css";
@@ -40,7 +41,16 @@ export default function SignUpPage() {
     try {
       setError("");
       setLoading(true);
-      await signUp(email, password);
+      const user = await signUp(email, password);
+
+      const userInfo = {
+        email: user.user.email,
+        username: userName,
+        uuid: user.user.uid,
+      };
+
+      await addUserToDB(user.user, userInfo);
+
       setLoading(false);
       setPasswordError([]);
       setEmailRequired(false);
@@ -49,7 +59,8 @@ export default function SignUpPage() {
       setConfirmPasswordRequired(false);
       router.push("/");
     } catch (error) {
-      switch (error) {
+      console.log(error);
+      switch (error.code) {
         case "auth/email-already-exists":
           setError("Email has already been registered.");
           break;
