@@ -3,6 +3,7 @@
   justify-content: space-between;
   padding: 2rem;
   border-bottom: 1px solid black;
+  height: 100px;
 }
 
 .title {
