@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import styles from "../Dashboard.module.css";
 import formStyles from "../../(auth)/(components)/AuthComponents.module.css";
 import CurrentBet from "./CurrentBet";
@@ -31,13 +32,21 @@ export default function LogBetForm() {
       result,
       earngings,
     };
+    setBetType("");
+    setOdds("");
+    setWager("");
+    setTeamBet("");
+    setResult("");
+    setEarngings("");
 
     setCurrentBets([...currentBets, bet]);
+    console.log(currentBets);
   };
 
-  const displayCurrentBets = function () {
-    currentBets.forEach();
-  };
+  const displayCurrentBets = currentBets.forEach((bet) => {
+    const id = uuidv4();
+    return <CurrentBet betObj={bet} key={id} />;
+  });
 
   return (
     <div>
@@ -104,13 +113,23 @@ export default function LogBetForm() {
         </div>
         <div className={styles.form__container__right}>
           <div className={formStyles.input_container}>
-            {currentBets.length > 0 ? displayCurrentBets() : ""}
+            <ul>
+              {currentBets.length > 0 &&
+                currentBets.forEach((bet) => {
+                  const id = uuidv4();
+                  console.log(bet);
+                  return <CurrentBet betType={bet.betType} key={id} />;
+                })}
+            </ul>
             <label>Bet Type</label>
             <input
               type="text"
               className={formStyles.input}
               placeholder="Moneyline"
               value={betType}
+              onChange={function (e) {
+                setBetType(e.target.value);
+              }}
             />
             <label>Odds</label>
             <input
@@ -118,6 +137,9 @@ export default function LogBetForm() {
               className={formStyles.input}
               placeholder="150"
               value={odds}
+              onChange={function (e) {
+                setOdds(e.target.value);
+              }}
             />
             <label>Wager</label>
             <input
@@ -125,6 +147,9 @@ export default function LogBetForm() {
               className={formStyles.input}
               placeholder="$150"
               value={wager}
+              onChange={function (e) {
+                setWager(e.target.value);
+              }}
             />
             <label>Team</label>
             <input
@@ -132,6 +157,9 @@ export default function LogBetForm() {
               className={formStyles.input}
               placeholder="Boston Bruins"
               value={teamBet}
+              onChange={function (e) {
+                setTeamBet(e.target.value);
+              }}
             />
             <label>Result</label>
             <input
@@ -139,6 +167,9 @@ export default function LogBetForm() {
               className={formStyles.input}
               placeholder="Win"
               value={result}
+              onChange={function (e) {
+                setResult(e.target.value);
+              }}
             />
             <label>Earnings</label>
             <input
@@ -146,6 +177,9 @@ export default function LogBetForm() {
               className={formStyles.input}
               placeholder="+$375"
               value={earngings}
+              onChange={function (e) {
+                setEarngings(e.target.value);
+              }}
             />
           </div>
           <button type="button" onClick={handleAddNewBet}>

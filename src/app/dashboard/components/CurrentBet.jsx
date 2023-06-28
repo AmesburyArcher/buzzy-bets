@@ -1,4 +1,5 @@
 export default function CurrentBet({ betType, team, wager, result }) {
+  console.log("hit");
   return (
     <div>
       <div>
