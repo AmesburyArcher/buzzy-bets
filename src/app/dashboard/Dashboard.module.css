@@ -20,6 +20,16 @@
   padding: 2rem;
 }
 
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.log__bet__button {
+  border: 1px solid black;
+  padding: 0.5rem 1rem;
+}
+
 .widgets__container {
   display: grid;
   grid-template-columns: 7fr 3fr;
@@ -47,4 +57,38 @@
 
 .right__widget {
   border: 1px solid black;
+}
+
+.modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  height: 700px;
+  width: 750px;
+  padding: 2rem;
+}
+
+.form__container__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+}
+
+.form__container__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
 }
