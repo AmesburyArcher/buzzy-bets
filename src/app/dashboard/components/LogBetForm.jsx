@@ -112,15 +112,17 @@ export default function LogBetForm() {
           </div>
         </div>
         <div className={styles.form__container__right}>
+          {currentBets.length > 0 &&
+            currentBets.map((bet) => (
+              <CurrentBet
+                key={uuidv4}
+                betType={bet.betType}
+                team={bet.team}
+                wager={bet.wager}
+                result={bet.result}
+              />
+            ))}
           <div className={formStyles.input_container}>
-            <ul>
-              {currentBets.length > 0 &&
-                currentBets.forEach((bet) => {
-                  const id = uuidv4();
-                  console.log(bet);
-                  return <CurrentBet betType={bet.betType} key={id} />;
-                })}
-            </ul>
             <label>Bet Type</label>
             <input
               type="text"

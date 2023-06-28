@@ -92,3 +92,17 @@
   gap: 1rem;
   height: 100%;
 }
+
+.current__bet__item {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.current__bet__item__left,
+.current__bet__item__right {
+  display: flex;
+  flex-direction: column;
+}
