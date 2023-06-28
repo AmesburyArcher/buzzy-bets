@@ -2,6 +2,7 @@
 import { useState } from "react";
 import styles from "../Dashboard.module.css";
 import formStyles from "../../(auth)/(components)/AuthComponents.module.css";
+import CurrentBet from "./CurrentBet";
 
 export default function LogBetForm() {
   const [sport, setSport] = useState("");
@@ -12,6 +13,31 @@ export default function LogBetForm() {
   const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
   const [bets, setBets] = useState([]);
+
+  const [currentBets, setCurrentBets] = useState([]);
+  const [betType, setBetType] = useState("");
+  const [odds, setOdds] = useState("");
+  const [wager, setWager] = useState("");
+  const [teamBet, setTeamBet] = useState("");
+  const [result, setResult] = useState("");
+  const [earngings, setEarngings] = useState("");
+
+  const handleAddNewBet = function () {
+    const bet = {
+      betType,
+      odds,
+      wager,
+      team: teamBet,
+      result,
+      earngings,
+    };
+
+    setCurrentBets([...currentBets, bet]);
+  };
+
+  const displayCurrentBets = function () {
+    currentBets.forEach();
+  };
 
   return (
     <div>
@@ -78,36 +104,53 @@ export default function LogBetForm() {
         </div>
         <div className={styles.form__container__right}>
           <div className={formStyles.input_container}>
+            {currentBets.length > 0 ? displayCurrentBets() : ""}
             <label>Bet Type</label>
             <input
               type="text"
               className={formStyles.input}
               placeholder="Moneyline"
+              value={betType}
             />
             <label>Odds</label>
-            <input type="text" className={formStyles.input} placeholder="150" />
+            <input
+              type="text"
+              className={formStyles.input}
+              placeholder="150"
+              value={odds}
+            />
             <label>Wager</label>
             <input
               type="text"
               className={formStyles.input}
               placeholder="$150"
+              value={wager}
             />
             <label>Team</label>
             <input
               type="text"
               className={formStyles.input}
               placeholder="Boston Bruins"
+              value={teamBet}
             />
             <label>Result</label>
-            <input type="text" className={formStyles.input} placeholder="Win" />
+            <input
+              type="text"
+              className={formStyles.input}
+              placeholder="Win"
+              value={result}
+            />
             <label>Earnings</label>
             <input
               type="text"
               className={formStyles.input}
               placeholder="+$375"
+              value={earngings}
             />
           </div>
-          <button type="button">Add Another Play</button>
+          <button type="button" onClick={handleAddNewBet}>
+            Add Another Play
+          </button>
         </div>
         <button formMethod="dialog">Cancel Bet</button>
         <button>Submit Bet</button>
