@@ -33,7 +33,7 @@ export default function Dashboard() {
         </div>
       </div>
       <dialog ref={formModal} className={styles.modal}>
-        <LogBetForm />
+        <LogBetForm modalRef={formModal} />
       </dialog>
     </div>
   );

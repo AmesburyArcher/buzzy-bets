@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { doc, setDoc, collection, writeBatch } from "firebase/firestore";
+import { db, queryUser } from "../../../firebase/firestore/firestore";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "../Dashboard.module.css";
 import formStyles from "../../(auth)/(components)/AuthComponents.module.css";
 import CurrentBet from "./CurrentBet";
 
-export default function LogBetForm() {
+export default function LogBetForm({ modalRef }) {
   const [sport, setSport] = useState("");
   const [league, setLeague] = useState("");
   const [team1, setTeam1] = useState("");
@@ -23,6 +25,8 @@ export default function LogBetForm() {
   const [teamBet, setTeamBet] = useState("");
   const [result, setResult] = useState("");
   const [earngings, setEarngings] = useState("");
+
+  const { currentUser } = useAuth();
 
   const handleAddNewBet = function () {
     const bet = {
@@ -44,20 +48,56 @@ export default function LogBetForm() {
     console.log(currentBets);
   };
 
-  const handleForm = function () {
-    const betData = {
-      sport,
-      league,
-      team1,
-      ...(team2 && { team2: team2 }),
-      bookMaker,
-      date,
-      notes,
-    };
+  const handleForm = async function (e) {
+    e.preventDefault();
+
+    if (currentBets.length === 0) {
+      console.log("Add a valid bet");
+    }
+
+    try {
+      const uidForBet = uuidv4();
+
+      const betData = {
+        sport,
+        league,
+        team1,
+        ...(team2 && { team2: team2 }),
+        bookMaker,
+        date,
+        notes,
+        uid: uidForBet,
+      };
+      const batch = writeBatch(db);
+
+      const docRef = doc(db, "users", currentUser.uid, "bets", uidForBet);
+      batch.set(docRef, betData);
+
+      currentBets.forEach((bet) => {
+        const betID = uuidv4();
+        const curBetsRef = doc(
+          db,
+          "users",
+          currentUser.uid,
+          "bets",
+          uidForBet,
+          "bets_placed",
+          betID
+        );
+        const curBet = {
+          ...bet,
+          uid: betID,
+        };
+        batch.set(curBetsRef, curBet);
+      });
+      await batch.commit();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <form className={styles.form__container}>
+    <form className={styles.form__container} onSubmit={handleForm}>
       <div className={styles.form__container__left}>
         <div className={formStyles.input_container}>
           <label>Sport Selection</label>
@@ -147,7 +187,7 @@ export default function LogBetForm() {
         {currentBets.length > 0 &&
           currentBets.map((bet) => (
             <CurrentBet
-              key={uuidv4}
+              key={uuidv4()}
               betType={bet.betType}
               team={bet.team}
               wager={bet.wager}
@@ -217,11 +257,31 @@ export default function LogBetForm() {
           />
         </div>
         <button type="button" onClick={handleAddNewBet}>
-          Add Another Play
+          Add Bet To Log
         </button>
       </div>
-      <button formMethod="dialog">Cancel Bet</button>
-      <button>Submit Bet</button>
+      <button
+        onClick={function () {
+          setSport("");
+          setLeague("");
+          setTeam1("");
+          setTeam2("");
+          setBookMaker("");
+          setDate("");
+          setNotes("");
+          setBetType("");
+          setOdds("");
+          setWager("");
+          setTeamBet("");
+          setResult("");
+          setEarngings("");
+          setCurrentBets([]);
+          modalRef.current.close();
+        }}
+      >
+        Cancel Bet
+      </button>
+      <button formMethod="dialog">Submit Bet</button>
     </form>
   );
 }
