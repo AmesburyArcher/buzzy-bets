@@ -3,6 +3,8 @@
 import styles from "./Dashboard.module.css";
 import LogBetForm from "./components/LogBetForm";
 import { useRef } from "react";
+import { queryAllBetLogs } from "@/firebase/firestore/firestore";
+import RecentBets from "./components/RecentBets";
 
 export default function Dashboard() {
   const formModal = useRef();
@@ -28,7 +30,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className={styles.right__widgets__container}>
-          <div className={styles.right__widget}>Right Top</div>
+          <div className={styles.right__widget}>{/* <RecentBets /> */}</div>
           <div className={styles.right__widget}>Right Bottom</div>
         </div>
       </div>

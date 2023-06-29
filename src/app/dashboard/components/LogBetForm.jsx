@@ -2,7 +2,11 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { doc, setDoc, collection, writeBatch } from "firebase/firestore";
-import { db, queryUser } from "../../../firebase/firestore/firestore";
+import {
+  db,
+  queryUser,
+  queryAllBetLogs,
+} from "../../../firebase/firestore/firestore";
 import { useAuth } from "@/contexts/AuthContext";
 import styles from "../Dashboard.module.css";
 import formStyles from "../../(auth)/(components)/AuthComponents.module.css";
@@ -28,6 +32,23 @@ export default function LogBetForm({ modalRef }) {
 
   const { currentUser } = useAuth();
 
+  const resetFields = function () {
+    setSport("");
+    setLeague("");
+    setTeam1("");
+    setTeam2("");
+    setBookMaker("");
+    setDate("");
+    setNotes("");
+    setBetType("");
+    setOdds("");
+    setWager("");
+    setTeamBet("");
+    setResult("");
+    setEarngings("");
+    setCurrentBets([]);
+  };
+
   const handleAddNewBet = function () {
     const bet = {
       betType,
@@ -45,7 +66,6 @@ export default function LogBetForm({ modalRef }) {
     setEarngings("");
 
     setCurrentBets([...currentBets, bet]);
-    console.log(currentBets);
   };
 
   const handleForm = async function (e) {
@@ -91,6 +111,8 @@ export default function LogBetForm({ modalRef }) {
         batch.set(curBetsRef, curBet);
       });
       await batch.commit();
+      resetFields();
+      modalRef.current.close();
     } catch (error) {
       console.log(error);
     }
@@ -262,20 +284,7 @@ export default function LogBetForm({ modalRef }) {
       </div>
       <button
         onClick={function () {
-          setSport("");
-          setLeague("");
-          setTeam1("");
-          setTeam2("");
-          setBookMaker("");
-          setDate("");
-          setNotes("");
-          setBetType("");
-          setOdds("");
-          setWager("");
-          setTeamBet("");
-          setResult("");
-          setEarngings("");
-          setCurrentBets([]);
+          resetFields();
           modalRef.current.close();
         }}
       >
