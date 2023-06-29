@@ -44,6 +44,18 @@ export default function LogBetForm() {
     console.log(currentBets);
   };
 
+  const handleForm = function () {
+    const betData = {
+      sport,
+      league,
+      team1,
+      ...(team2 && { team2: team2 }),
+      bookMaker,
+      date,
+      notes,
+    };
+  };
+
   return (
     <form className={styles.form__container}>
       <div className={styles.form__container__left}>
