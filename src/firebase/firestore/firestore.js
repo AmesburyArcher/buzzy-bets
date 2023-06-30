@@ -8,21 +8,19 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import { getAuth, getIdToken } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 export const db = getFirestore(firebase_app);
 
-function getValidatedUser() {
+export async function getValidatedUser() {
   const auth = getAuth(firebase_app);
   return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged(
-      (user) => {
-        console.log(user);
-        unsubscribe();
-        resolve(user);
-      },
-      reject // pass up any errors attaching the listener
-    );
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(user);
+      unsubscribe();
+      return resolve(user);
+    });
   });
 }
 
@@ -34,18 +32,8 @@ export const queryUser = async function () {
   return query(collection(db, "users")), where("uid", "==", user.uid);
 };
 
-export const queryAllBetLogs = async function () {
-  try {
-    const currentUser = await getValidatedUser();
-    const token = getIdToken(currentUser);
-    console.log(currentUser);
-    if (!currentUser) {
-      console.log(currentUser);
-    }
-    return getDocs(
-      query(collection(db, "users", currentUser.user.uid, "bets"))
-    );
-  } catch (error) {
-    console.log(error);
-  }
+export const queryAllBetLogs = function (user) {
+  return useCollection(collection(db, "users", user.uid, "bets"), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
 };

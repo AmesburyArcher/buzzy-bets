@@ -19,7 +19,9 @@ export default function Dashboard() {
           </div>
         </div>
         <div className={styles.right__widgets__container}>
-          <div className={styles.right__widget}>{/* <RecentBets /> */}</div>
+          <div className={styles.right__widget}>
+            <RecentBets />
+          </div>
           <div className={styles.right__widget}>Right Bottom</div>
         </div>
       </div>

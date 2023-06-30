@@ -1,24 +1,41 @@
-import { queryAllBetLogs } from "../../../firebase/firestore/firestore";
-import { useAuth } from "@/contexts/AuthContext";
+"use client";
+
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { queryAllBetLogs } from "@/firebase/firestore/firestore";
+import firebase_app from "@/firebase/config";
+import styles from "../Dashboard.module.css";
 import RecentBetCard from "./RecentBetCard";
+import LoadingScreen from "@/components/LoadingScreen";
 
-export default async function RecentBets() {
-  const querySnapshot = await queryAllBetLogs();
+export default function RecentBets() {
+  const auth = getAuth(firebase_app);
+  const [user, loading, error] = useAuthState(auth);
 
-  console.log(querySnapshot);
+  if (loading) return <div>LOADING</div>;
+  if (error) return <div>ERROR</div>;
+
+  const [value, loadingData, errorData] = queryAllBetLogs(user);
+
   return (
-    <li>
-      {querySnapshot &&
-        querySnapshot.map((q) => {
+    <ul className={styles.recent__bets__list}>
+      {loadingData && <LoadingScreen />}
+      {errorData && <div>ERROR data</div>}
+      {value &&
+        value.docs.map((q) => {
           const data = q.data();
-          <RecentBetCard
-            sport={data.sport}
-            league={data.league}
-            team1={data.team1}
-            team2={data.team2}
-            date={data.date}
-          />;
+          console.log(data);
+          return (
+            <RecentBetCard
+              key={data.uid}
+              sport={data.sport}
+              league={data.league}
+              team1={data.team1}
+              team2={data.team2}
+              date={data.date}
+            />
+          );
         })}
-    </li>
+    </ul>
   );
 }

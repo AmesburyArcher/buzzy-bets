@@ -52,13 +52,30 @@
   display: grid;
   grid-template-rows: 2fr 1fr;
   gap: 2rem;
+
   height: 100%;
 }
 
 .right__widget {
   border: 1px solid black;
+  padding: 1rem;
+  height: 100%;
 }
 
+.recent__bets__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recent__bet__card {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
 .modal {
   position: absolute;
   left: 50%;
