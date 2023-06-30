@@ -3,9 +3,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import RecentBetCard from "./RecentBetCard";
 
 export default async function RecentBets() {
-  const { currentUser } = useAuth();
-  const query = queryAllBetLogs(currentUser);
-  const querySnapshot = await getDocs(query);
+  const querySnapshot = await queryAllBetLogs();
+
   console.log(querySnapshot);
   return (
     <li>
