@@ -28,7 +28,7 @@ export default function LogBetForm({ modalRef }) {
   const [wager, setWager] = useState("");
   const [teamBet, setTeamBet] = useState("");
   const [result, setResult] = useState("");
-  const [earngings, setEarngings] = useState("");
+  const [earnings, setEarnings] = useState("");
 
   const { currentUser } = useAuth();
 
@@ -45,25 +45,26 @@ export default function LogBetForm({ modalRef }) {
     setWager("");
     setTeamBet("");
     setResult("");
-    setEarngings("");
+    setEarnings("");
     setCurrentBets([]);
   };
 
   const handleAddNewBet = function () {
     const bet = {
-      betType,
+      betType: betType.toLowerCase(),
       odds,
       wager,
-      team: teamBet,
-      result,
-      earngings,
+      team: teamBet.toLowerCase(),
+      result: result.toLowerCase(),
+      earnings:
+        earnings > 0 && result.toLowerCase() === "loss" ? -earnings : earnings,
     };
     setBetType("");
     setOdds("");
     setWager("");
     setTeamBet("");
     setResult("");
-    setEarngings("");
+    setEarnings("");
 
     setCurrentBets([...currentBets, bet]);
   };
@@ -79,14 +80,15 @@ export default function LogBetForm({ modalRef }) {
       const uidForBet = uuidv4();
 
       const betData = {
-        sport,
-        league,
-        team1,
-        ...(team2 && { team2: team2 }),
-        bookMaker,
+        sport: sport.toLowerCase(),
+        league: league.toLowerCase(),
+        team1: team1.toLowerCase(),
+        ...(team2 && { team2: team2.toLowerCase() }),
+        bookMaker: bookMaker.toLowerCase(),
         date,
         notes,
         uid: uidForBet,
+        userID: currentUser.uid,
       };
       const batch = writeBatch(db);
 
@@ -130,6 +132,7 @@ export default function LogBetForm({ modalRef }) {
               setSport(e.target.value);
             }}
           >
+            <option value="Choose Sport">Choose Sport</option>
             <option value="Hockey">Hockey</option>
             <option value="Soccer">Soccer</option>
             <option value="Football">Football</option>
@@ -230,7 +233,7 @@ export default function LogBetForm({ modalRef }) {
           />
           <label>Odds</label>
           <input
-            type="text"
+            type="number"
             className={formStyles.input}
             placeholder="150"
             value={odds}
@@ -240,9 +243,9 @@ export default function LogBetForm({ modalRef }) {
           />
           <label>Wager</label>
           <input
-            type="text"
+            type="number"
             className={formStyles.input}
-            placeholder="$150"
+            placeholder="150"
             value={wager}
             onChange={function (e) {
               setWager(e.target.value);
@@ -270,12 +273,12 @@ export default function LogBetForm({ modalRef }) {
           />
           <label>Earnings</label>
           <input
-            type="text"
+            type="number"
             className={formStyles.input}
-            placeholder="+$375"
-            value={earngings}
+            placeholder="375"
+            value={earnings}
             onChange={function (e) {
-              setEarngings(e.target.value);
+              setEarnings(e.target.value);
             }}
           />
         </div>
