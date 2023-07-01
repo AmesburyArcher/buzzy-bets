@@ -30,12 +30,15 @@ export default function NavBar() {
       <ul className={styles.links}>
         {currentUser ? (
           <>
-            <button type="button" onClick={handleLogOut}>
-              Log Out
-            </button>
+            <Link className={styles.link} href="/dashboard">
+              Dashboard
+            </Link>
             <Link className={styles.link} href="/update-profile">
               Update Profile
             </Link>
+            <button type="button" onClick={handleLogOut}>
+              Log Out
+            </button>
           </>
         ) : (
           <>

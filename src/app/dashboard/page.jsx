@@ -9,7 +9,7 @@ export default function Dashboard() {
   return (
     <div className={styles.main__dashboard}>
       <div className={styles.dashboard__header}>
-        <h1>Dashboard Hub</h1>
+        <h1 className={styles.dashboard__header__title}>Dashboard Hub</h1>
         <LogBetFormModal />
       </div>
       <div className={styles.widgets__container}>

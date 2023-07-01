@@ -17,17 +17,25 @@
 .main__dashboard {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
   padding: 2rem;
 }
 
 .dashboard__header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard__header__title {
+  font-size: 2.4rem;
+  font-weight: bold;
 }
 
 .log__bet__button {
   border: 1px solid black;
   padding: 0.5rem 1rem;
+  border-radius: 0.6rem;
 }
 
 .widgets__container {
@@ -66,6 +74,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  height: 100%;
 }
 
 .recent__bet__card {
@@ -126,4 +135,11 @@
 .current__bet__item__right {
   display: flex;
   flex-direction: column;
+}
+
+.record__summary__container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 1rem;
 }

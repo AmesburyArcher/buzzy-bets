@@ -30,6 +30,9 @@ export default function LogBetForm({ modalRef }) {
   const [result, setResult] = useState("");
   const [earnings, setEarnings] = useState("");
 
+  const [error, setError] = useState("");
+  const [sportError, setSportError] = useState("");
+
   const { currentUser } = useAuth();
 
   const resetFields = function () {
@@ -73,7 +76,13 @@ export default function LogBetForm({ modalRef }) {
     e.preventDefault();
 
     if (currentBets.length === 0) {
-      console.log("Add a valid bet");
+      setError("Please add a leg to your bet");
+      return;
+    }
+
+    if (sport === "Choose Sport") {
+      setSportError("Please select a valid sport");
+      return;
     }
 
     try {
@@ -123,6 +132,7 @@ export default function LogBetForm({ modalRef }) {
 
   return (
     <form className={styles.form__container} onSubmit={handleForm}>
+      {error && <div>{error}</div>}
       <div className={styles.form__container__left}>
         <div className={formStyles.input_container}>
           <label>Sport Selection</label>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { auth, queryAllBetLegs } from "../../../firebase/firestore/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingScreen from "@/components/LoadingScreen";
+import styles from "../Dashboard.module.css";
 
 export default function RecordSummary() {
   const [user, loading, error] = useAuthState(auth);
@@ -55,8 +56,8 @@ export default function RecordSummary() {
   }, [loadingData, value]);
 
   return (
-    <div>
-      {loadingData || (processing && <LoadingScreen />)}
+    <div className={styles.record__summary__container}>
+      {(loadingData || processing) && <LoadingScreen />}
       {errorData && <div>{JSON.stringify(errorData)}</div>}
       {value && (
         <div>
