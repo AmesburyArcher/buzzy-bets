@@ -7,11 +7,14 @@ import {
   setDoc,
   where,
   getDocs,
+  or,
+  collectionGroup,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 
 export const db = getFirestore(firebase_app);
+export const auth = getAuth(firebase_app);
 
 export async function getValidatedUser() {
   const auth = getAuth(firebase_app);
@@ -34,6 +37,17 @@ export const queryUser = async function () {
 
 export const queryAllBetLogs = function (user) {
   return useCollection(collection(db, "users", user.uid, "bets"), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
+};
+
+export const queryAllBetLegs = function (user) {
+  const betsPlacedRef = query(
+    collectionGroup(db, "bets_placed"),
+    where("userID", "==", user.uid)
+  );
+  console.log(betsPlacedRef);
+  return useCollection(betsPlacedRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 };

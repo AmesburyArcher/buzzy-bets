@@ -24,7 +24,9 @@ export default function NavBar() {
 
   return (
     <nav className={styles.navbar}>
-      <h1 className={styles.title}>Buzzy Bets</h1>
+      <h1 className={styles.title}>
+        <Link href="/">Buzzy Bets</Link>
+      </h1>
       <ul className={styles.links}>
         {currentUser ? (
           <>

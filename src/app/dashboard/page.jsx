@@ -2,6 +2,7 @@ import styles from "./Dashboard.module.css";
 import LogBetForm from "./components/LogBetForm";
 import { queryAllBetLogs } from "@/firebase/firestore/firestore";
 import RecentBets from "./components/RecentBets";
+import RecordSummary from "./components/RecordSummary";
 import LogBetFormModal from "./components/LogBetFormModal";
 
 export default function Dashboard() {
@@ -22,7 +23,9 @@ export default function Dashboard() {
           <div className={styles.right__widget}>
             <RecentBets />
           </div>
-          <div className={styles.right__widget}>Right Bottom</div>
+          <div className={styles.right__widget}>
+            <RecordSummary />
+          </div>
         </div>
       </div>
     </div>

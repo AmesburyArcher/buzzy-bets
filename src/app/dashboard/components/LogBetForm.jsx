@@ -107,6 +107,7 @@ export default function LogBetForm({ modalRef }) {
         const curBet = {
           ...bet,
           uid: betID,
+          userID: currentUser.uid,
         };
         batch.set(curBetsRef, curBet);
       });

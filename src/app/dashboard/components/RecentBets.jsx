@@ -1,15 +1,12 @@
 "use client";
 
-import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { queryAllBetLogs } from "@/firebase/firestore/firestore";
-import firebase_app from "@/firebase/config";
+import { queryAllBetLogs, auth } from "@/firebase/firestore/firestore";
 import styles from "../Dashboard.module.css";
 import RecentBetCard from "./RecentBetCard";
 import LoadingScreen from "@/components/LoadingScreen";
 
 export default function RecentBets() {
-  const auth = getAuth(firebase_app);
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) return <div>LOADING</div>;
