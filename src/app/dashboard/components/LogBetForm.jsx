@@ -11,6 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import styles from "../Dashboard.module.css";
 import formStyles from "../../(auth)/(components)/AuthComponents.module.css";
 import CurrentBet from "./CurrentBet";
+import { sportsData } from "../../../dataObjects/sportsData"
 
 export default function LogBetForm({ modalRef }) {
   const [sport, setSport] = useState("");
@@ -142,14 +143,15 @@ export default function LogBetForm({ modalRef }) {
               setSport(e.target.value);
             }}
           >
-            <option value="Choose Sport">Choose Sport</option>
+            {sportsData.map(sport => <option value={sport}>{sport}</option>)}
+            {/* <option value="Choose Sport">Choose Sport</option>
             <option value="Hockey">Hockey</option>
             <option value="Soccer">Soccer</option>
             <option value="Football">Football</option>
             <option value="Basketball">Basketball</option>
             <option value="Baseball">Baseball</option>
             <option value="Tennis">Tennis</option>
-            <option value="Golf">Golf</option>
+            <option value="Golf">Golf</option> */}
           </select>
         </div>
         <div className={formStyles.input_container}>
@@ -297,6 +299,7 @@ export default function LogBetForm({ modalRef }) {
         </button>
       </div>
       <button
+        type="button"
         onClick={function () {
           resetFields();
           modalRef.current.close();
